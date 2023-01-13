@@ -1,0 +1,55 @@
+.recent{
+    position: relative;
+}
+.recent > button {
+    position: absolute;
+    border-radius: 50%;
+    border: none;
+    background-color: gray;
+}
+.recent h3{
+    margin-left: 3%;
+}
+.recent .left-scroll{
+    top:43%; 
+    left: 1%;  
+}
+.recent .right-scroll{
+    left: 93%;
+    top:43%;
+}
+.recent-events{
+    display:flex;
+    flex-direction: row;
+    flex-wrap:nowrap;
+    gap:3%;
+    height:350px;
+    padding: 20px 30px;
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+}
+.recent-events::-webkit-scrollbar {
+    display: none;
+  }
+.recent-events p{
+    position: absolute;
+    text-align: center;
+}
+.recent-events > .recent-event{
+    height:300px;
+    width: 260px;
+    box-shadow: 10px 10px 10px rgb(214, 213, 210);
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.096);
+} 
+
+.recent-event img{
+    height: 240px;
+    width: 235px;
+    margin-left: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.recent-event h4{
+    text-align: center;
+}
