@@ -29,9 +29,19 @@ const AddEvent = ({visibility,hide}) => {
 
     const photos =images ? [...images] : [];
     const data = new FormData();
-    photos.forEach((photo,i)=>{
+        data.append("eName",eventName)
+        data.append("sDate",startDate)
+        data.append("eDate",endDate)
+        data.append("eDescription",eventDescription)
+        data.append("banner",banner)
+        
+        photos.forEach((photo,i)=>{
         data.append(`photo-${i}`,photo,photo.name)
+
     })
+        position.forEach((post,i)=>{
+            data.append(`position${i}`,post.values)
+        })
 
     
 
@@ -42,18 +52,9 @@ const AddEvent = ({visibility,hide}) => {
             await fetch('http://localhost:5000/events', {
             method: 'POST',
             headers: {
-                'content-type': banner.type,
-                'content-length': `${banner.size}`, 
+                'Content-type': 'multipart/form-data'
               },
-            body: JSON.stringify({
-               "eName" : eventName,
-               "sDate" : startDate,
-               "eDate" : endDate,
-               "eDescription" : eventDescription,
-               "banner" : banner,
-               "images" : data,
-               "position" : position
-            }),
+            body: data,
         }).then(function(response) {
             console.log(response.json());
             return response.json();
