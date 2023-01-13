@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import './addevent.css'
 
@@ -9,26 +10,26 @@ const AddEvent = ({visibility,hide}) => {
     const [eventDescription,setEventDescription] = useState('');
     const [banner,setBanner] = useState('');
     const [images,setImages] = useState([]);
-    const[position,setPosition] = useState([{position:''}]);
+    const [position,setPosition] = useState({position:''});
+    const[positions,setPositions] = useState([]);
     
 
-    const handleInputChange = (e,index) =>{
-        const {name,value} = e.target;
-        const list = [...position];
-        list[index][name] = value;
-        setPosition(list);
-    }
+    // const handleInputChange = (e,index) =>{
+    //     const {name,value} = e.target;
+    //     console.log(name,value  )
+    //     const list = [...positions];
+    //     list[index][name] = value;
+    //     setPositions(list);
+    // }
     const removeField =(index) =>{
-        const list = [...position];
+        const list = [...positions];
         list.splice(index,1);
-        setPosition(list);
+        setPositions(list);
     }
-    const addField = () =>{
-        setPosition([...position,{position:''}])
-    }
-
-    const photos =images ? [...images] : [];
-    const data = new FormData();
+    
+    const appendEventFormData=()=>{
+        const photos =images ? [...images] : [];
+        let data = new FormData();
         data.append("eName",eventName)
         data.append("sDate",startDate)
         data.append("eDate",endDate)
@@ -39,32 +40,47 @@ const AddEvent = ({visibility,hide}) => {
         data.append(`photo-${i}`,photo,photo.name)
 
     })
-        position.forEach((post,i)=>{
-            data.append(`position${i}`,post.values)
+
+        positions.forEach((post,i)=>{
+            data.append(`position${i+1}`,post.position)
         })
 
-    
+        return data;
+    }
 
     const submitForm = async (e) => {
-
+        e.preventDefault();
+       const formData = appendEventFormData();
         try{
-            e.preventDefault();
-            await fetch('http://localhost:5000/events', {
-            method: 'POST',
-            headers: {
-                'Content-type': 'multipart/form-data'
-              },
-            body: data,
-        }).then(function(response) {
-            console.log(response.json());
-            return response.json();
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            }
+            const url = 'http://example.com/file-upload';
+            axios.post(url, formData,config).then((response)=>{
+                console.log(response)
+            })
+
+        //     await fetch('http://localhost:5000/events', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-type': 'multipart/form-data'
+        //       },
+        //     body: data,
+        // }).then(function(response) {
+        //     console.log(response.json());
+        //     return response.json();
             
-        });
+        // });
         }catch(err){
             console.log(err);
         }
     }
-    if(!visibility) return false;
+
+
+    if(!visibility) return <></>;
+
   return (
     <div className='overlay'>
         <button className='close-btn' onClick={hide}>X</button>
@@ -101,7 +117,22 @@ const AddEvent = ({visibility,hide}) => {
                  onChange={(e)=>{setImages(e.target.files)}} 
                 accept="image/jpg,image/jpeg,image/png/image.svg"/>
             </div>
-            {
+           <div>
+           <input type="text" value={position.position} className="form-control w-75 mb-3" placeholder='Positions' onChange={(e)=>setPosition({position:e.target.value})} />  
+            <button className='btn btn-primary w-25 mb-4' onClick={()=>{
+                setPositions([...positions,position])
+                setPosition({position:''})
+            }}>Add</button>
+
+           </div>
+            {positions.map((item,index)=>{
+                return <>
+                <p key={index}>{item.position}</p>
+                <button className='' onClick={()=>removeField(index)}>X</button>
+                </>
+            })}
+
+            {/* {
                 position.map((x,i)=>{
                     return <div class="form-floating mb-2 w-100 position">
                     <input type="text" className="form-control w-75 mb-3" placeholder='Positions' onChange={e=>handleInputChange(e,i)} />  
@@ -118,7 +149,7 @@ const AddEvent = ({visibility,hide}) => {
                     
                     </div>
                 }) 
-            }
+            } */}
             <button className='btn btn-primary mt-2 w-75' onClick={submitForm}>Submit</button>
      </div>
  </div>
