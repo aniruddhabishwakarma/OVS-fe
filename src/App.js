@@ -5,12 +5,27 @@ import Dashboard from './pages/dashboard/Dashboard';
 import Events from './pages/events/Events';
 import Candidates from './pages/candidates/Candidates';
 import Settings from './pages/settings/Settings';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [adminInfo,setAdminInfo] = useState([]);
+   const fetchData = async () => {
+    const response = await fetch('http://localhost:5000/admin')
+    const data = await response.json();
+    setAdminInfo(data);
+    
+   }
+   useEffect(()=>{
+    try{
+      fetchData();
+    }catch(err){
+      console.log(err.message)
+    }
+   },[])
   return (
     <>
     <BrowserRouter>
-      <Sidebar/>
+      <Sidebar adminInfo = {adminInfo}/>
        <div className="main">
        <Routes>
         <Route path='/' element={<Dashboard/>}/>

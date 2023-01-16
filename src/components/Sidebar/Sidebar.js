@@ -26,7 +26,12 @@ const Sidebar = (props) => {
     <div id="mySidebar" className="sidebar" style={position}>
     <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80"
         alt=""/>
-    <p>Admin</p>
+        {
+            Array.from(props.adminInfo).map((info)=>{
+                return <p>{info.username}</p>
+            })
+        }
+    
     {/* <a href="javascript:void(0)" className="closebtn" onClick={closeNav}>&times;</a> */}
     <NavLink to='/'><i className="bi bi-house-door"></i> Dashboard</NavLink>
     <NavLink to='/events'><i className="bi bi-people"></i> Events</NavLink>

@@ -51,13 +51,14 @@ const AddEvent = ({visibility,hide}) => {
     const submitForm = async (e) => {
         e.preventDefault();
        const formData = appendEventFormData();
+       console.log(...formData);
         try{
             const config = {
                 headers: {
                     'content-type': 'multipart/form-data'
                 }
             }
-            const url = 'http://example.com/file-upload';
+            const url = 'http://localhost:5000/events';
             axios.post(url, formData,config).then((response)=>{
                 console.log(response)
             })
