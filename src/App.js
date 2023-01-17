@@ -13,6 +13,7 @@ function App() {
     const response = await fetch('http://localhost:5000/admin')
     const data = await response.json();
     setAdminInfo(data);
+
     
    }
    useEffect(()=>{
@@ -31,7 +32,7 @@ function App() {
         <Route path='/' element={<Dashboard/>}/>
         <Route path = '/events' element={<Events/>}/>
         <Route path = '/candidates' element={<Candidates/>}/>
-        <Route path='/settings' element={<Settings/>}/>
+        <Route path='/settings' element={<Settings adminInfo={adminInfo}/>}/>
         <Route/>
       </Routes>
        </div>
