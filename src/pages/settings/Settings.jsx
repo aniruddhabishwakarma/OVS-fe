@@ -1,14 +1,34 @@
 import React, { useState } from 'react';
-import Modal from './Modal';
+import Usernamemodal from './Usernamemodal';
+import Contactmodal from './Contactmodal';
+import Emailmodal from './Emailmodal';
+import Passwordmodal from './Passwordmodal';
 import './settings.css'
 
 const Settings = (props) => {
   const [usernameModal,setusernameModal] = useState(false);
+  const [contactModal,setContactModal] = useState(false);
+  const [emailModal,setEmailModal] = useState(false);
+  const [passwordModal,setPasswordModal] = useState(false);
   return (
     <>
-    <Modal visibility={usernameModal}
+    <Usernamemodal visibility={usernameModal}
     hide = {()=>setusernameModal(!usernameModal)}
     adminInfo = {props.adminInfo}/>
+
+    <Contactmodal visibility = {contactModal}
+    hide={()=>setContactModal(!contactModal)}
+    adminInfo={props.adminInfo}/>
+
+    <Emailmodal visibility = {emailModal}
+    hide={()=>setEmailModal(!emailModal)}
+    adminInfo={props.adminInfo} />
+
+    <Passwordmodal visibility ={passwordModal}
+    hide= {()=>setPasswordModal(!passwordModal)}
+    adminInfo={props.adminInfo}
+    />
+
     <section id="settings" className="settings bg-dark text-light">
             <div className="setting-heading bg-dark text-light">
                 <h1>General Profile Settings</h1>
@@ -28,19 +48,19 @@ const Settings = (props) => {
                     <th scope="row">2</th>
                     <td>Contact</td>
                     <td>{info.contact}</td>
-                    <td><button className='btn btn-dark'>Edit</button></td>
+                    <td><button className='btn btn-dark' onClick={()=>setContactModal(true)}>Edit</button></td>
                   </tr>
                   <tr>
                     <th scope="row">3</th>
                     <td>Email</td>
                     <td>{info.email}</td>
-                    <td><button className='btn btn-dark'>Edit</button></td>
+                    <td><button className='btn btn-dark' onClick={()=>setEmailModal(true)}>Edit</button></td>
                   </tr>
                   <tr>
                     <th scope="row">4</th>
                     <td>Password</td>
                     <td>**********</td>
-                    <td><button className='btn btn-dark'>Edit</button></td>
+                    <td><button className='btn btn-dark' onClick={()=>setPasswordModal(true)}>Edit</button></td>
                   </tr>
                     </>
                   })
